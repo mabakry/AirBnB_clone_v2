@@ -115,13 +115,30 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
+        tokens = args.split(' ')
+        class_name = tokens[0]
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif class_name not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        new_instance = HBNBCommand.classes[args]()
+
+        # create new instance of class
+        new_instance = HBNBCommand.classes[class_name]()
+        for token in tokens[1:]:
+            if '=' in token:
+                token = token.split('=')
+                token[1] = token[1].replace('_', ' ')
+
+                # remove quotes from token[1] if present
+                if token[1][0] == '\"' and token[1][-1] == '\"':
+                    token[1] = token[1][1:-1]
+                else:
+                    continue
+
+                setattr(new_instance, token[0], token[1])
+
         storage.save()
         print(new_instance.id)
         storage.save()
