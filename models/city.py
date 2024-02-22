@@ -13,6 +13,7 @@ class City(BaseModel, Base):
     if storage_type == 'db':
         state_id = Column(String(60), nullable=False)
         name = Column(String(128), ForeignKey('states.id'), nullable=False)
+        places = relationship("Place", backref="cities")
     else:
         state_id = ""
         name = ""
