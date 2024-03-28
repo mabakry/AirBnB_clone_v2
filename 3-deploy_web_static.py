@@ -69,3 +69,4 @@ def deploy():
         return False
     result = do_deploy(new_archive_path)
     return result
+
